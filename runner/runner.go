@@ -79,12 +79,18 @@ func InputmsgControll(cmd_msg_from_user string, msg tgbotapi.MessageConfig, bot_
 	} else {
 		msg.Text = helper.Invalidcmd
 	}
+	if _, err := bot.Send(msg); err != nil {
+		log.Println(err)
+	}
 }
 
 func GiveOutput(result string, msg tgbotapi.MessageConfig, cmd_msg_from_user_arg string, update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	if len(result) <= 4096 {
 		log.Println("output size : ", len(result))
 		msg.Text = result
+		if _, err := bot.Send(msg); err != nil {
+			log.Println(err)
+		}
 	} else {
 		filepath := strings.ToLower(cmd_msg_from_user_arg) + "_subdomains.txt"
 		filename, trf := utils.Filecreate(result, filepath)
